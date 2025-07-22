@@ -73,7 +73,7 @@ const Meetings = () => {
   }, [toast]);
 
   // --- FUNÇÃO PARA ABRIR O FORMULÁRIO (CHAMADA PELO BOTÃO) ---
-  const handleScheduleConsultation = () => {
+  const handleScheduleMeeting = () => {
     setIsFormOpen(true); // Apenas abre o formulário
     // Limpa os dados do formulário a cada abertura
     setNewMeetingData({
@@ -143,20 +143,20 @@ const Meetings = () => {
 
   const filters = ["Todas", "Próximas", "Em Curso", "Concluídas", "Canceladas"];
 
-  const filteredMeetings = meetings.filter(consultation => {
+  const filteredMeetings = meetings.filter(meeting => {
     const matchesFilter = () => {
       if (filter === 'Todas') return true;
-      if (filter === 'Próximas') return consultation.status === 'Próxima';
-      if (filter === 'Em Curso') return consultation.status === 'Ativa';
-      if (filter === 'Concluídas') return consultation.status === 'Concluída';
-      if (filter === 'Canceladas') return consultation.status === 'Cancelada';
+      if (filter === 'Próximas') return meeting.status === 'Próxima';
+      if (filter === 'Em Curso') return meeting.status === 'Ativa';
+      if (filter === 'Concluídas') return meeting.status === 'Concluída';
+      if (filter === 'Canceladas') return meeting.status === 'Cancelada';
       return true;
     };
 
     const matchesSearch = searchTerm ?
-      consultation.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      consultation.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      consultation.participants.some(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()))
+      meeting.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      meeting.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      meeting.participants.some(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()))
       : true;
 
     return matchesFilter() && matchesSearch;
@@ -196,11 +196,11 @@ const Meetings = () => {
                   transition={{ delay: 0.4, duration: 0.6 }}
                 >
                   <Button
-                    onClick={handleScheduleConsultation}
+                    onClick={handleScheduleMeeting}
                     className="btn-primary px-6 py-3 text-base rounded-xl"
                   >
                     <CalendarPlus className="mr-2" size={20} />
-                    Agendar Consulta
+                    Agendar Meeting
                   </Button>
                 </motion.div>
               </div>
@@ -249,8 +249,8 @@ const Meetings = () => {
                   }}
                   className="space-y-4"
                 >
-                  {filteredMeetings.map((consultation) => (
-                    <MeetingItem key={consultation.id} meeting={consultation} />
+                  {filteredMeetings.map((meeting) => (
+                    <MeetingItem key={meeting.id} meeting={meeting} />
                   ))}
                 </motion.div>
               )}

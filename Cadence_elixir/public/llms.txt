@@ -1,0 +1,10 @@
+## Pages
+- [- Cadence](/meetingroom): Sala de reunião virtual da plataforma Cadence para colaboração em tempo real.
+- [As Minhas Consultas - Cadence](/meetings): Gerencie todas as suas teleconsultas e agendamentos na plataforma Cadence.
+- [Atividade - Cadence](/activity): Veja toda a atividade recente na plataforma Cadence.
+- [Autenticação - Cadence](/auth): Entre ou registe-se para aceder à plataforma Cadence.
+- [Calendário - Cadence](/calendar): Gerencie suas reuniões e eventos no calendário da plataforma Cadence.
+- [Clínicas e Especialidades - Cadence](/communities): Encontre clínicas, departamentos e especialidades médicas na plataforma Cadence.
+- [Conversas - Cadence](/conversations): Veja e gerencie todas as suas conversas na plataforma Cadence.
+- [O Meu Perfil - Cadence](/profile): Página de perfil do utilizador na plataforma Cadence.
+- [Painel de Saúde - Cadence](/dashboard): O seu portal de saúde Cadence: teleconsultas, agendamentos e lembretes de medicação.

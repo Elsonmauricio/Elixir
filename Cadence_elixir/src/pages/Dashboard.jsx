@@ -25,7 +25,8 @@ const Dashboard = () => {
     navigate('/conversations');
   };
 
-  const handleStartUrgentConsultation = () => {
+  const handleStartUrgentMeeting = () => {
+    console.log('Iniciando meeting urgente...');
     toast({
       title: "A iniciar teleconsulta urgente...",
       duration: 1500,
@@ -146,7 +147,7 @@ const Dashboard = () => {
                     </CardHeader>
 
                     <Button
-                      onClick={handleStartUrgentConsultation}
+                      onClick={handleStartUrgentMeeting}
                       className="w-full h-14 text-lg font-semibold rounded-xl bg-teal-200 text-teal-800 hover:bg-teal-300 transition-colors shadow-sm"
                     >
                       Entrar na Consulta
