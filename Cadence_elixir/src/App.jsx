@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { Toaster } from '@/components/ui/toaster';
+import { RequireRole } from '@/components/RequireRole';
 
 // Importa todas as tuas páginas
 import Dashboard from '@/pages/Dashboard';
@@ -13,6 +14,8 @@ import Meetings from '@/pages/Meetings';
 import Activity from '@/pages/Activity';
 import Auth from '@/pages/Auth';
 import Profile from '@/pages/Profile';
+import ConsultationHistory from '@/pages/ConsultationHistory';
+
 
 function App() {
   return (
@@ -32,6 +35,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/conversations" element={<Conversations />} />
             <Route path="/communities" element={<Communities />} />
+            <Route path="/consultations/history" element={<ConsultationHistory />} />
             <Route path="/meetings" element={<Meetings />} />
             <Route path="/calendar" element={<Calendar />} />
             <Route path="/activity" element={<Activity />} />

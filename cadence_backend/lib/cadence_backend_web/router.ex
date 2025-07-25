@@ -48,6 +48,8 @@ defmodule CadenceBackendWeb.Router do
     get "/meetings/:id", MeetingController, :show
     get "/meetings/:id/chat", MeetingController, :get_chat_messages
     delete "/meetings/:id/chat", MeetingController, :clear_chat
+    get "/meetings/:id/notes", MeetingController, :get_notes
+    post "/meetings/:id/notes", MeetingController, :set_notes
 
     # Endpoint para dados do usuário autenticado
     get "/me", ApiController, :me
@@ -57,14 +59,30 @@ defmodule CadenceBackendWeb.Router do
     get "/conversations", ConversationController, :index
     post "/conversations", ConversationController, :create
 
+
+    get "/contacts", ContactsController, :index
+    post "/contacts", ContactsController, :create
+    get "/contacts/:id", ContactsController, :show
+    put "/contacts/:id", ContactsController, :update
+    delete "/contacts/:id", ContactsController, :delete
+
     # Endpoint de notificações
     get "/notifications", NotificationController, :index
     post "/notifications", NotificationController, :create
+
+    # Rotas protegidas para GET e POST de disponibilidade do profissional
+    get "/professional/availability", ProfessionalController, :get_availability
+    post "/professional/availability", ProfessionalController, :set_availability
   end
 
   scope "/api", CadenceBackendWeb do
     pipe_through :api_protected
     post "/invite", InviteController, :invite
+  end
+
+  scope "/api/calendar", CadenceBackendWeb do
+    pipe_through :api_protected
+    resources "/events", CalendarEventController, except: [:new, :edit, :show]
   end
 
   if Application.compile_env(:cadence_backend, :dev_routes) do

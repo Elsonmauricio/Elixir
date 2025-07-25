@@ -1,20 +1,41 @@
 defmodule CadenceBackendWeb.ConversationController do
   use CadenceBackendWeb, :controller
+  alias CadenceBackend.Conversation
 
-  # Mock: lista de mensagens
-  @mock_messages [
-    %{id: 1, from: "agent", text: "Olá, preciso de ajuda com a minha conta."},
-    %{id: 2, from: "user", text: "Claro! Como posso ajudar?"},
-    %{id: 3, from: "agent", text: "Não consigo redefinir a palavra-passe."}
-  ]
-
-  def index(conn, _params) do
-    json(conn, @mock_messages)
+  def index(conn, %{"from_id" => from_id, "to_id" => to_id}) do
+    messages = Conversation.list_messages_between(String.to_integer(from_id), String.to_integer(to_id))
+    json(conn, messages)
   end
 
-  def create(conn, %{"text" => text}) do
-    # Simula mensagem criada
-    msg = %{id: System.system_time(:millisecond), from: "user", text: text}
-    json(conn, msg)
+  def create(conn, %{
+    "from_id" => from_id,
+    "to_id" => to_id,
+    "text" => text,
+    "from_type" => from_type,
+    "to_type" => to_type
+  }) do
+    with {:ok, message} <- Conversation.create_message(%{
+      "from_id" => from_id,
+      "to_id" => to_id,
+      "text" => text,
+      "from_type" => from_type,
+      "to_type" => to_type
+    }) do
+      json(conn, message)
+    end
+  end
+  def index(conn, %{"from_id" => from_id, "to_id" => to_id} = params) do
+    IO.inspect(conn.assigns[:current_user], label: "USUÁRIO LOGADO")
+    IO.inspect(params, label: "PARAMS RECEBIDOS (index)")
+    messages = Conversation.list_messages_between(String.to_integer(from_id), String.to_integer(to_id))
+    json(conn, messages)
+  end
+
+  def create(conn, params) do
+    IO.inspect(conn.assigns[:current_user], label: "USUÁRIO LOGADO")
+    IO.inspect(params, label: "PARAMS RECEBIDOS (create)")
+    with {:ok, message} <- Conversation.create_message(params) do
+      json(conn, message)
+    end
   end
 end

@@ -34,7 +34,7 @@ const statusStyles = {
   },
 };
 
-const MeetingItem = ({ meeting }) => {
+const MeetingItem = ({ meeting, onOpenNotes }) => {
   const { toast } = useToast();
   const navigate = useNavigate(); // Inicialização do useNavigate
 
@@ -100,13 +100,8 @@ const MeetingItem = ({ meeting }) => {
   return (
     <motion.div
       variants={cardVariants}
-      className="flex flex-col md:flex-row items-start md:items-center justify-between p-6 rounded-xl gap-6 transition-all duration-300 hover:shadow-lg cursor-pointer" // Adicionei cursor-pointer
-      onClick={handleActionClick} // Torna todo o card clicável
-      style={{
-        backgroundColor: 'var(--bg-dark-secondary)',
-        border: '1px solid var(--border-color)',
-        borderLeft: `4px solid ${style.border.replace('border-', 'var(--color-')}`
-      }}
+      className={`rounded-xl border p-6 shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4 mb-2 cursor-pointer hover:shadow-lg transition-all duration-200 ${statusStyles[meeting.status]?.border ?? ''}`}
+      onClick={() => handleActionClick()}
     >
       <div className="flex-1">
         <div className="flex items-center gap-4 mb-3">
@@ -144,7 +139,7 @@ const MeetingItem = ({ meeting }) => {
           </div>
         </div>
       </div>
-      <div className="w-full md:w-auto">
+      <div className="w-full md:w-auto flex gap-2 mt-4 md:mt-0">
         {meeting.status === 'Ativa' || meeting.status === 'Próxima' ? (
           <Button
             onClick={(e) => { e.stopPropagation(); handleActionClick(); }} // Previne clique no card ao clicar no botão
@@ -160,6 +155,19 @@ const MeetingItem = ({ meeting }) => {
           >
             <Info size={16} />
             Ver Detalhes
+          </Button>
+        )}
+        {onOpenNotes && (
+          <Button
+            variant="secondary"
+            size="sm"
+            className="ml-2"
+            onClick={e => {
+              e.stopPropagation();
+              onOpenNotes();
+            }}
+          >
+            Notas/Receitas
           </Button>
         )}
       </div>

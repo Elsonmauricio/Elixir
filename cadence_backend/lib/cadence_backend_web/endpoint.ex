@@ -53,6 +53,9 @@ defmodule CadenceBackendWeb.Endpoint do
   plug Plug.Session, @session_options
   plug CadenceBackendWeb.Router # O Router SEMPRE VEM POR ÚLTIMO
 
+  plug CORSPlug, origin: ["http://localhost:5173"]
+  plug CadenceBackendWeb.Router
+
   # Configuração do socket para o seu CadenceBackendWeb.UserSocket (Phoenix Channels)
   # CORREÇÃO AQUI: Passamos :user_id e :token via connect_info, que virão da query string do cliente.
   socket "/socket", CadenceBackendWeb.UserSocket,

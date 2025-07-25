@@ -1,11 +1,10 @@
-
 defmodule CadenceBackendWeb.AuthController do
   use CadenceBackendWeb, :controller
   alias CadenceBackend.Guardian
   alias CadenceBackend.Firebase
 
   # POST /api/register
-  def register(conn, %{"username" => username, "email" => email, "password" => password}) do
+  def register(conn, %{"username" => username, "email" => email, "password" => password, "role" => role}) do
     # Verifica se já existe usuário com esse email
     case Firebase.list_documents("users") do
       {:ok, users} ->
@@ -15,11 +14,17 @@ defmodule CadenceBackendWeb.AuthController do
           |> put_status(:conflict)
           |> json(%{error: "E-mail já registrado"})
         else
+          # Validação do role
+          role =
+            case role do
+              r when r in ["patient", "professional"] -> r
+              _ -> "patient" # fallback seguro
+            end
           user = %{
             name: username,
             email: email,
             password: password,
-            role: "User"
+            role: role
           }
           case Firebase.create_document("users", user) do
             {:ok, created_user} ->

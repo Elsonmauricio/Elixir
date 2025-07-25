@@ -24,13 +24,15 @@ const Auth = () => {
       const email = form.email.value;
       const password = form.password.value;
       try {
-        await loginUser(email, password);
+        const user = await loginUser(email, password);
         toast({
           title: 'Login realizado com sucesso!',
           description: 'Redirecionando para o dashboard...',
           duration: 1500,
         });
-        setTimeout(() => navigate('/dashboard'), 1500);
+        setTimeout(() => {
+          navigate('/dashboard');
+        }, 1500);
       } catch (err) {
         setLoginError('Usuário ou senha inválidos');
         toast({
@@ -47,6 +49,7 @@ const Auth = () => {
       const email = form.email.value;
       const password = form.password.value;
       const confirmPassword = form["confirm-password"].value;
+      const role = form.role.value;
       if (password !== confirmPassword) {
         setLoginError('As senhas não coincidem');
         toast({
@@ -58,7 +61,7 @@ const Auth = () => {
         return;
       }
       try {
-        await registerUser(username, email, password);
+        await registerUser(username, email, password, role);
         toast({
           title: 'Registro realizado com sucesso!',
           description: 'Você já pode fazer login.',
@@ -179,11 +182,22 @@ const Auth = () => {
                       <Input id="password-register" name="password" type="password" required placeholder="Password" className="pl-10" />
                     </div>
                   </div>
-                   <div>
+                  <div>
                     <label className="sr-only">Confirmar Password</label>
                     <div className="relative">
                       <Lock className="absolute left-3 top-1/2 -translate-y-1/2" size={18} style={{ color: 'var(--text-light-secondary)' }} />
                       <Input id="confirm-password-register" name="confirm-password" type="password" required placeholder="Confirmar Password" className="pl-10" />
+                    </div>
+                  </div>
+                  <div className="mb-4">
+                    <label className="block mb-1 font-medium">Tipo de Conta</label>
+                    <div className="flex gap-4">
+                      <label>
+                        <input type="radio" name="role" value="patient" defaultChecked /> Paciente
+                      </label>
+                      <label>
+                        <input type="radio" name="role" value="professional" /> Profissional da Saúde
+                      </label>
                     </div>
                   </div>
                   <Button type="submit" className="w-full btn-primary">

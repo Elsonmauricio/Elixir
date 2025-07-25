@@ -1,17 +1,18 @@
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { apiFetch } from '@/services/api';
+
+
 // Função de registro de usuário
-export async function registerUser(username, email, password) {
+export async function registerUser(username, email, password, role) {
   const response = await apiFetch('/api/register', {
     method: 'POST',
-    body: JSON.stringify({ username, email, password }),
+    body: JSON.stringify({ username, email, password, role }),
     headers: {
       'Content-Type': 'application/json',
     },
   });
   return response;
 }
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { apiFetch } from '@/services/api';
-
 // Funções de autenticação
 export async function loginUser(username, password) {
   const response = await apiFetch('/api/login', {

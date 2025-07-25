@@ -162,5 +162,30 @@ defmodule CadenceBackendWeb.MeetingController do
         |> json(%{error: "Erro ao buscar mensagens", details: inspect(e)})
     end
   end
+  # GET /api/meetings/:id/notes
+def get_notes(conn, %{"id" => id}) do
+  case CadenceBackend.Meetings.get_meeting(id) do
+    {:ok, %CadenceBackend.Meetings.Meeting{notes: notes}} ->
+      json(conn, %{notes: notes || ""})
+    {:error, _} ->
+      conn |> put_status(:not_found) |> json(%{error: "Reunião não encontrada"})
+  end
+end
+
+# POST /api/meetings/:id/notes
+def set_notes(conn, %{"id" => id, "notes" => notes}) do
+  case CadenceBackend.Meetings.get_meeting(id) do
+    {:ok, meeting} ->
+      case CadenceBackend.Meetings.update_meeting(meeting, %{"notes" => notes}) do
+        {:ok, %CadenceBackend.Meetings.Meeting{notes: updated_notes}} ->
+          json(conn, %{notes: updated_notes})
+        {:error, reason} ->
+          conn |> put_status(:unprocessable_entity) |> json(%{error: "Erro ao salvar notas", details: inspect(reason)})
+      end
+    {:error, _} ->
+      conn |> put_status(:not_found) |> json(%{error: "Reunião não encontrada"})
+  end
+end
+
 
 end

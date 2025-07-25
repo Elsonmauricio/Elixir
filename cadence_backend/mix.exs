@@ -54,7 +54,8 @@ defmodule CadenceBackend.MixProject do
       {:phoenix_pubsub, "~> 2.1"},
       {:uuid, "~> 1.1"},
       {:httpoison, "~> 1.8"},
-      {:gen_smtp, "~> 1.1"}
+      {:gen_smtp, "~> 1.1"},
+      {:cors_plug, "~> 3.0"}
       # REMOVIDO: {:goth, "~> 1.4"} - Não estamos a usar Goth
     ]
   end

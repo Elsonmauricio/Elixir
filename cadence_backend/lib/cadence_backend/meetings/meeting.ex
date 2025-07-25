@@ -19,7 +19,8 @@ defmodule CadenceBackend.Meetings.Meeting do
     :owner_id,      # String
     :participants,  # List de mapas (e.g., [%{"id" => "user1", "name" => "User A"}])
     :inserted_at,   # DateTime.t
-    :updated_at     # DateTime.t
+    :updated_at,     # DateTime.t
+    :notes          # String (notas/receitas) << NOVO CAMPO
   ]
 
   @doc """
@@ -50,17 +51,21 @@ defmodule CadenceBackend.Meetings.Meeting do
     participants = Map.get(attrs, :participants) || Map.get(attrs, "participants")
     final_participants = if is_list(participants), do: participants, else: []
 
+    notes = Map.get(attrs, :notes) || Map.get(attrs, "notes")
+
+
     %__MODULE__{
       id: id,
       name: Map.get(attrs, :name) || Map.get(attrs, "name"),
-      start_time: start_time,
-      end_time: end_time,
+      start_time: start_time_attr,
+      end_time: end_time_attr,
       status: Map.get(attrs, :status) || Map.get(attrs, "status"),
       type: Map.get(attrs, :type) || Map.get(attrs, "type"),
       owner_id: Map.get(attrs, :owner_id) || Map.get(attrs, "owner_id"),
-      participants: final_participants,
-      inserted_at: inserted_at,
-      updated_at: updated_at
+      participants: Map.get(attrs, :participants) || Map.get(attrs, "participants") || [],
+      inserted_at: Map.get(attrs, :inserted_at) || Map.get(attrs, "inserted_at"),
+      updated_at: Map.get(attrs, :updated_at) || Map.get(attrs, "updated_at"),
+      notes: notes
     }
   end
 
